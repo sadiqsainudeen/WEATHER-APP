@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="weather.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>WEATHER APP</title>
+</head>
+
+<body style=" background-size: cover; background-image: url(https://i.makeagif.com/media/6-25-2016/e6rTMt.gif); position: absolute;">
+
+
+    <!-- background -->
+
+    <div style="box-shadow: 3px 8px 9px; margin-top: 80px;" id="background">
+        <!-- form section -->
+
+        <form style="margin-left:450px;  padding-top: 30px;" action="">
+            <input id="place" style="border-radius: 7px;" class="border border-success" placeholder="ENTER HERE"
+                type="text">
+            <button onclick="search()" style="border-radius: 5px;" class="border-dark" type="button"><i
+                    class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
+
+        </form>
+
+
+
+        <!-- image holding div -->
+        <div style=" width: 1100px; height: 400px; margin-left: 50px; margin-top: 20px;  ">
+            <img style=" border-radius: 20px; width:100%; height : 400px;" src="./360_F_102642850_Mca9lTRDH60DQin39YwCF5Jzd15lcdoo.jpg"
+                alt="">
+
+
+            <!-- extra data show -->
+            <div id="ex1"
+                style="margin-left: 160px; position: relative;  width: 400px; height: 100px; margin-top: -340px;">
+                <img style="margin-top: -80px;" src="./giphy.gif" alt="">
+            </div>
+            <div id="ex2" style="margin-left: 60px; position: relative;  width: 400px; height: 30px; margin-top: 10px;">
+
+            </div>
+            <div id="ex3" style="margin-left: 60px; position: relative;  width: 400px; height: 30px; margin-top: 10px;">
+
+            </div>
+            <div id="ex4" style="margin-left: 60px; position: relative;  width: 400px; height: 30px; margin-top: 10px;">
+
+            </div>
+            <div id="ex5" style="margin-left: 60px; position: relative;  width: 400px; height: 30px; margin-top: 10px;">
+
+            </div>
+            <div id="ex6" style="margin-left: 60px; position: relative;  width: 400px; height: 30px; margin-top: 10px;">
+
+            </div>
+
+
+        </div>
+        <!-- clear buttton  -->
+
+        <button style=" margin-top: -70px; margin-left: 870px;" type="button" class="btn btn-danger border-danger"
+            onclick="allClear()">CLEAR</button>
+
+
+
+        <!-- div for the grid making -->
+        <div
+            style=" opacity: .87; border: 2px wheat solid ; border-radius: 20px; position: relative; margin-left: 700px; width: 400px; height: 350px; background-color: rgb(117, 117, 115); margin-top: -415px; ">
+
+            <h3
+                style="text-align: center; margin-top: 20px; text-shadow: 2px -2px 3px; background-color: rgb(223, 238, 238); color: rgb(44, 44, 41);">
+                <b>WEATHER DETAILS</b>
+            </h3>
+
+            <!-- grid div -->
+            <div style="margin-top: 80px; margin-left: 100px; " class="row">
+                <div style=" width: 200px; height: 20px; margin-bottom: 30px; margin-left: -100px;" class="col-4">
+                    <label style="color: aliceblue;" for=""><b>COUNTRY </b> </label>
+                    <input id="cou" class="border border-white" style="width:370px; box-shadow: 5px 4px 1px; "
+                        type="text">
+                </div>
+                <br>
+                <div style=" margin-top:60px; width: 20px; height: 30px;  margin-left: -224px;" class="col-4">
+                    <label style="color: rgb(241, 241, 241);" for=""><b>TEMPERATURE </b> </label>
+                    <input id="temp" class="border border-white" style="width:370px; box-shadow: 5px 4px 1px; "
+                        type="text">
+                </div>
+                <br>
+
+                <div style="  color: rgb(241, 241, 241); margin-top: 120px; width: 20px; height: 30px;  margin-left: -48px;"
+                    class="col-4">
+                    <label for=""><b>HUMIDITY </b> </label>
+                    <input id="humi" class="border border-white" style="width:370px; box-shadow: 5px 4px 1px; "
+                        type="text">
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</body>
+
+
+
+
+
+
+<script>
+
+    function search() {
+        let val = place.value
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${val}&appid=8ac5c4d57ba6a4b3dfcf622700447b1e`)
+            .then((result) => {
+                result.json()
+                    .then((obj) => {
+
+                        displaydata(obj)
+
+                    })
+
+            })
+
+    }
+
+
+    function displaydata(data) {
+        let countrydetails = data.sys.country
+        let tem = data.main.temp
+        let hum = data.main.humidity
+
+        document.getElementById("cou").value = countrydetails
+        document.getElementById("temp").value = tem
+        document.getElementById("humi").value = hum
+
+        ex2.innerHTML = `<b>MINIMUM TEMPERATURE : </b> ${data.main.temp_min}`
+        ex3.innerHTML = `<b>MAXIMUM TEMPERATURE : </b> ${data.main.temp_max}`
+        ex4.innerHTML = `<b>PRESSURE : </b> ${data.main.pressure}`
+        ex5.innerHTML = `<b>WIND SPEED : </b> ${data.wind.speed}`
+        ex6.innerHTML = `<b>CONDITION : </b> ${data.weather[0].main}`
+
+
+
+
+
+    }
+
+    function allClear() {
+        console.log(`${place.value = ""} ${cou.value = ""} ${temp.value = ""} ${humi.value = ""}  ${ex2.innerHTML = ""} ${ex3.innerHTML = ""} ${ex4.innerHTML = ""} ${ex5.innerHTML = ""} ${ex6.innerHTML = ""}`);
+
+    }
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>
